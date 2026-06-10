@@ -6,6 +6,7 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "httpx>=0.28.1",
+    "pydantic>=2.13.4",
 ]
 
 [build-system]
@@ -50,6 +51,9 @@ select = [
     "ARG",    # flake8-unused-arguments
     "PL",     # Pylint
     "TRY",    # tryceratops
+]
+ignore = [
+    "PLR0913"
 ]
 
 [tool.ruff.lint.flake8-tidy-imports]

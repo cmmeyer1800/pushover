@@ -1,5 +1,5 @@
 lint:
-    uv run ruff check src/
+    uv run ruff check --fix src/
 
 test:
     uv run mypy .
