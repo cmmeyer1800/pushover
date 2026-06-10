@@ -20,7 +20,13 @@ packages = ["src/pushover"]
 dev = [
     "mypy>=2.1.0",
     "pytest>=9.0.3",
+    "python-dotenv>=1.2.2",
     "ruff>=0.15.16",
+]
+
+[tool.pytest.ini_options]
+markers = [
+    "integration: marks tests that require real credentials (run with --integration)",
 ]
 
 [tool.ruff]
@@ -53,7 +59,8 @@ select = [
     "TRY",    # tryceratops
 ]
 ignore = [
-    "PLR0913"
+    "PLR0913",
+    "TRY003"
 ]
 
 [tool.ruff.lint.flake8-tidy-imports]

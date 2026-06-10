@@ -10,17 +10,23 @@ HTTP_JSON = dict[str, str | int | bool | None]
 class PushoverClient(httpx.Client):
     """Pushover API Client"""
 
-    def __init__(self, token: str, base_url: str = V1_JSON_API) -> None:
+    def __init__(
+        self,
+        token: str,
+        user: str | None = None,
+        base_url: str = V1_JSON_API
+    ) -> None:
         super().__init__(base_url=base_url)
         self.req_args: HTTP_JSON = {
-            "token": token
+            "token": token,
+            "user": user,
         }
 
     # TODO: Add attachment support
     def send_message(
         self,
-        user: str,
         message: str,
+        user: str | None = None,
         title: str | None = None,
         device: str | None = None,
         html: bool | None = None,
@@ -32,7 +38,13 @@ class PushoverClient(httpx.Client):
         url_title: str | None = None,
     ) -> Response:
         """"""
+        if self.req_args.get("user") is None and user is None:
+            raise ValueError(
+                "user must be specified since it was not specified at client creation time"
+            )
+
         optional = {
+            "user": user,
             "title": title,
             "device": device,
             "html": int(html) if html is not None else None,
@@ -44,7 +56,6 @@ class PushoverClient(httpx.Client):
             "url_title": url_title,
         }
         json: HTTP_JSON = self.req_args | {
-            "user": user,
             "message": message,
             **{key: value for key, value in optional.items() if value is not None},
         }
